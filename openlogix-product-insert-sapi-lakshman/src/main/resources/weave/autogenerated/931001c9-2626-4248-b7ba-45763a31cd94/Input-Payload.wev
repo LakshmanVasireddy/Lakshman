@@ -1,0 +1,25 @@
+%dw 2.0
+
+type auto_931001c9_2626_4248_b7ba_45763a31cd94_Input_Payload = {
+  Month5: String, 
+  Month4: String, 
+  ProductDimensionExternalID: String, 
+  MeasureCode: String, 
+  Month7: String, 
+  Month6: String, 
+  Month1: String, 
+  Month3: String, 
+  Month2: String, 
+  Label: String, 
+  Month9: String, 
+  Month8: String, 
+  Month11: String, 
+  AccountDimensionExternalID: String, 
+  Month12: String, 
+  PromotionDimensionID: String, 
+  Month10: String, 
+  ProductDimensionCatagoryID: String, 
+  AccountDimensionID: String, 
+  _?: Any
+}
+

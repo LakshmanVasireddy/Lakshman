@@ -1,0 +1,17 @@
+#%RAML 1.0 DataType
+properties:
+  apiName:
+    type: string
+    pattern: ^([a-zA-Z0-9]+)\-(sapi|papi|eapi)$
+    example: "test-sapi"
+  status:
+    type: string
+    enum:
+      - Running
+    example: "Running"
+  success:
+    type: boolean
+    example: true
+  timeStamp:
+    type: datetime
+    example: "2022-09-01T11:12:00.000Z"

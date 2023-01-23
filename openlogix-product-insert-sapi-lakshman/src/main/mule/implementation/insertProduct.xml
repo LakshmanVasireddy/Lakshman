@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="a5923371-4e4c-445b-b3fd-4201caf21467" >
+		<db:my-sql-connection host="localhost" port="3307" user="root" password="root" database="mule"/>
+	</db:config>
+	<flow name="insertProductFlow" doc:id="931001c9-2626-4248-b7ba-45763a31cd94" >
+		<ee:transform doc:name="Transform Message" doc:id="3cf1048f-2251-4f96-a7c2-a1209f3961c5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="780be908-cb47-4a22-84ec-35c0f70ea91c" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into product values(:AccountDimensionID,:ProductDimensionCatagoryID,:AccountDimensionExternalID,:PromotionDimensionID,:ProductDimensionExternalID,:Label,:MeasureCode,:Month1,:Month2,:Month3,:Month4,:Month5,:Month6,:Month7,:Month8,:Month9,:Month10,:Month11,:Month12);]]></db:sql>
+		</db:bulk-insert>
+		<logger level="INFO" doc:name="Logger" doc:id="5b34be69-b04a-4e72-a6a0-204358712d83" message="#[payload]"/>
+	</flow>
+</mule>

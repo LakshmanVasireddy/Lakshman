@@ -1,0 +1,11 @@
+#%RAML 1.0 DataType
+properties:
+  success:
+    type: boolean
+  errorMessage?:
+    type: string | object
+  data?:
+    description: Sent when the success.
+    type: any
+  timestamp:
+    type: datetime

@@ -1,0 +1,29 @@
+#%RAML 1.0
+title: product-insert-lakshman
+description: API for insert product data into Mysql database
+protocols: [HTTP, HTTPS]
+mediaType: [application/json]
+securedBy: CommonLibrary.ClientCredentials
+version: 1.0.0
+
+uses:
+  CommonLibrary: exchange_modules/76f5b765-b094-4992-9efb-e3584f19850e/commonlibrary/1.0.2/commonlibrary.raml
+
+
+/health:
+  type:
+    CommonLibrary.HealthCheckRT:
+      getResponseType: Health
+
+types:
+  product : !include dataTypes/product.raml
+
+
+/product:
+  post:
+  type:
+    CommonLibrary.CollectionRT:
+      postDescription: For inserting product data into database
+      postResponseType: 
+      postRequestBodyType: product
+      postResponseExample: !include examples/post_response.json

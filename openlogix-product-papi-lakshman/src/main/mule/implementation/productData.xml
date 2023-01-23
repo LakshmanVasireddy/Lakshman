@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<flow name="productDataFlow" doc:id="84e03a1d-6665-41c5-9005-16820559a3d4" >
+		<file:read doc:name="Read" doc:id="7f74d610-4c23-4d51-adb9-719087956bf3" path="F:\MuleSoft\OpenLogix KT\Project_Openlogix\OutputFileLocation\SmallCSVFile_1.CSV" outputMimeType="application/csv; streaming=true">
+			<ee:repeatable-file-store-stream bufferUnit="MB" />
+		</file:read>
+		<ee:transform doc:name="Transform Message" doc:id="7fc79206-6a7b-45eb-8f39-9f462c72ad4b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+@StreamCapable()
+input payload application/csv 
+output application/json deferred=true
+---
+payload map{
+	"AccountDimensionID": $."accountdimension.id",
+	"ProductDimensionCatagoryID": $."productdimension.categoryid",
+	"AccountDimensionExternalID": $."accountdimension.externalid",
+	"PromotionDimensionID": $."promotiondimension.id",
+	"ProductDimensionExternalID": $."productdimension.externalid",
+	"Label": $."label",
+	"MeasureCode": $."measurecode",
+	"Month1": $."Month-1/2022",
+	"Month2": $."Month-2/2022",
+	"Month3": $."Month-3/2022",
+	"Month4": $."Month-4/2022",
+	"Month5": $."Month-5/2022",
+	"Month6": $."Month-6/2022",
+	"Month7": $."Month-7/2022",
+	"Month8": $."Month-8/2022",
+	"Month9": $."Month-9/2022",
+	"Month10": $."Month-10/2022",
+	"Month11": $."Month-11/2022",
+	"Month12": $."Month-12/2022"
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<batch:job jobName="productDataBatch_Job" doc:id="6b62d416-7866-4d20-a3dd-6eba2a20f341" blockSize="10000">
+			<batch:process-records >
+				<batch:step name="Batch_Step" doc:id="8828415f-b5b3-4440-85a7-db33d172a68f" acceptPolicy="ALL">
+					<set-payload value="#[payload]" doc:name="Set Payload" doc:id="574516a6-59c2-4cf5-963a-0fb446ee8551" mimeType="application/json; streaming=true"/>
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="27f87073-29a7-4c08-ace2-4ca58df7c083" size="10000">
+						<ee:transform doc:name="Transform Message" doc:id="5a15c8de-239d-413f-baaa-0817e8d1bb48" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+@StreamCapable()
+input payload application/json 
+output application/json deferred=true
+---
+payload]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+						<file:write doc:name="Write" doc:id="45bbf49d-2c2e-4796-b5a5-caf59d2a3504" path="F:\MuleSoft\OpenLogix KT\Project_Openlogix\Testing\Testing.JSON" mode="APPEND" />
+					</batch:aggregator>
+				</batch:step>
+			</batch:process-records>
+			<batch:on-complete >
+				<logger level="INFO" doc:name="Logger" doc:id="4433af6f-ff44-41a2-b354-129780fef52a" message="#[payload]"/>
+			</batch:on-complete>
+		</batch:job>
+		<ee:transform doc:name="Transform Message" doc:id="1dff3a23-6f11-4333-ae72-fc21014fd11f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+"Process Completed"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

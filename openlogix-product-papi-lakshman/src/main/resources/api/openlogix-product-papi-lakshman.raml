@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: product-lakshman
+description: API for extracting , processing and calling the /product endpoint of product-insert-lakshman to insert product data into database
+protocols: [HTTP, HTTPS]
+mediaType: [application/json]
+securedBy: CommonLibrary.ClientCredentials
+version: 1.0.0
+
+uses:
+  CommonLibrary: exchange_modules/76f5b765-b094-4992-9efb-e3584f19850e/commonlibrary/1.0.2/commonlibrary.raml
+
+types:
+  filepath: !include dataType/filePath.raml
+
+/health:
+  type:
+    CommonLibrary.HealthCheckRT:
+      getResponseType: Health
+
+
+/processRecords:
+  post:
+  type:
+    CommonLibrary.CollectionRT:
+      postDescription: For extracting , processing and calling the /product endpoint of product-insert-lakshman to insert product data into database
+      postResponseType: 
+      postRequestBodyType: filepath
+      postResponseExample: !include examples/post_response.json

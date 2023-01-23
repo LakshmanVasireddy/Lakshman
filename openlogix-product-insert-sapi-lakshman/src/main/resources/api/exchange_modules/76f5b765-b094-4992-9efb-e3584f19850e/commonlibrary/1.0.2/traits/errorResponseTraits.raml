@@ -1,0 +1,42 @@
+#%RAML 1.0 Trait
+responses:
+  400:
+    description: Bad Request
+    body:
+      type: ResponseType
+      example: !include ../examples/error400.raml
+  401:
+    description: Unauthorized
+    body:
+      type: ResponseType
+      example: !include ../examples/error401.raml
+  403:
+    description: Forbidden
+    body:
+      type: ResponseType
+      example: !include ../examples/error403.raml
+  404:
+    description: Not Found
+    body:
+      type: ResponseType
+      example: !include ../examples/error404.raml
+  500:
+    description: Internal Server Error
+    body:
+      type: ResponseType
+      example: !include ../examples/error500.raml
+  501:
+    description: Not Implemented
+    body:
+      type: ResponseType
+      example: !include ../examples/error501.raml
+  502:
+    description: Bad Gateway
+    body:
+      type: ResponseType
+      example: !include ../examples/error502.raml
+  503:
+    description: Service Unavailable
+    body:
+      type: ResponseType
+      example: !include ../examples/error503.raml

@@ -1,0 +1,31 @@
+#%RAML 1.0 ResourceType
+get?:
+  is: [ErrorResponseTrait]
+  description: <<getDescription>>
+  responses:
+    200:
+      body:
+        type: <<getResponseType>>
+        example: <<getResponseExample>>
+
+post?:
+  is: [ErrorResponseTrait]
+  description: <<postDescription>>
+  body:
+    type: <<postRequestBodyType>>
+  responses:
+    201:
+      body:
+        type: <<postResponseType>>
+        example: <<postResponseExample>>
+
+put?:
+  is: [ErrorResponseTrait]
+  description: <<putDescription>>
+  body:
+    type: <<putRequestBodyType>>
+  responses:
+    201:
+      body:
+        type: <<putResponseType>>
+        example: <<putResponseExample>>

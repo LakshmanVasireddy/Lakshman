@@ -1,0 +1,13 @@
+#%RAML 1.0 SecurityScheme
+type: Basic Authentication
+describedBy:
+  headers:
+    Authorization: 
+      type: string
+      description: With the prefix of Basic, pass the Base64 encoded username and password
+      example: "Basic 1232131212312"
+  responses:
+    401:
+      body:
+        application/json:
+          example: !include ../examples/error401.raml

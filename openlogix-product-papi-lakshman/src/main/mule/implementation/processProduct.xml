@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:compression="http://www.mulesoft.org/schema/mule/compression" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/compression http://www.mulesoft.org/schema/mule/compression/current/mule-compression.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="b7a94f3e-ce14-457e-917f-d8ac560051d8" >
+		<file:connection workingDir="F:\MuleSoft\OpenLogix KT\Project_Openlogix\Testing" />
+	</file:config>
+	<flow name="processProductFlow" doc:id="d6c8bab1-5092-4458-85da-17d5ad03dc2d" >
+		<file:read doc:name="Product.zip file" doc:id="298e1c25-92c0-41e2-9ad2-2c4601001d97" path="F:\MuleSoft\OpenLogix KT\Project_Openlogix\Download\product.zip" config-ref="File_Config">
+			<ee:repeatable-file-store-stream bufferUnit="MB" />
+		</file:read>
+		<logger level="INFO" doc:name="After Read " doc:id="1a4590dd-6a28-4f1d-8d9b-0f3cbd3561bf" message="After Read Product.zip file"/>
+		<compression:extract doc:name="Product.zip" doc:id="c4abba54-b18d-4a06-b7a2-226885c56309" >
+			<ee:repeatable-file-store-stream bufferUnit="MB" />
+			<compression:extractor >
+				<compression:zip-extractor />
+			</compression:extractor>
+		</compression:extract>
+		<logger level="INFO" doc:name="Extracting Zip File" doc:id="f333c152-26e8-49da-ab96-2866982788a9" message="After Extracting product.zip file"/>
+		<file:write doc:name="Product.csv" doc:id="35004bcd-23b1-42e7-b440-775b3bd43142" path="#['F:\\MuleSoft\\OpenLogix KT\\Project_Openlogix\\InputFile\\product.csv']" >
+			<file:content ><![CDATA[#[payload["filesx00.csv"]]]]></file:content>
+		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="c1619446-0090-4d34-a22f-bfa18c735396" message="After Write"/>
+		<flow-ref doc:name="Flow Reference" doc:id="60b80553-dcbc-49bb-acd7-67073c6f55d1" name="productDataFlow"/>
+	</flow>
+	
+
+	
+</mule>

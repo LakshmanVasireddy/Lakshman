@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="processProductSchedular" doc:id="ee2e6fa4-39a1-444a-bbd7-f3d4801dd44f" >
+		<file:listener doc:name="On New or Updated File" doc:id="f9fcd994-4e61-4255-90fc-20834c3e2ea4" directory="F:\MuleSoft\OpenLogix KT\Project_Openlogix\Download">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="DAYS" />
+			</scheduling-strategy>
+		</file:listener>
+	</flow>
+	<flow name="processProductFlow" doc:id="786dec4b-b97c-43d6-b163-e443abff144d" >
+		<http:request method="POST" doc:name="Request" doc:id="8776b1f1-3d53-490d-860b-a4d5635a605b" url="localhost:8081/api/processRecords">
+			<http:body ><![CDATA[#[{
+  "filepath": ""
+}]]]></http:body>
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"clientSecret" : "12345678990",
+	"clientId" : "qwertyuio"
+}]]]></http:headers>
+		</http:request>
+	</flow>
+</mule>

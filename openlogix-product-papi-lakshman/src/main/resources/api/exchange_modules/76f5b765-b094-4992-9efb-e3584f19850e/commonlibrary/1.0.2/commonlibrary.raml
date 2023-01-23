@@ -1,0 +1,17 @@
+#%RAML 1.0 Library
+usage: This is an Openlogix Common Library which will be used to build API specification rapidly.
+
+types:
+  HealthType: !include dataTypes/HealthType.raml
+  ResponseType: !include dataTypes/ResponseType.raml
+
+traits:
+  ErrorResponseTrait: !include traits/errorResponseTraits.raml
+
+resourceTypes:
+  HealthCheckRT: !include resourceTypes/healthCheck.raml
+  CollectionRT: !include resourceTypes/collection.raml
+
+securitySchemes:
+  BasicAuth: !include securitySchemes/basicAuth.raml
+  ClientCredentials: !include securitySchemes/clientCredentials.raml

@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: product-resource-lakshman
+description: Downloads the product zip file from host location using URL.
+protocols: [HTTP, HTTPS]
+mediaType: [application/json]
+securedBy: CommonLibrary.ClientCredentials
+version: 1.0.0
+
+uses:
+  CommonLibrary: exchange_modules/76f5b765-b094-4992-9efb-e3584f19850e/commonlibrary/1.0.2/commonlibrary.raml
+
+types:
+  getFile: !include dataType/getFile.raml
+
+
+
+/health:
+  type:
+    CommonLibrary.HealthCheckRT:
+      getResponseType: Health
+
+/file:
+  get:
+  type:
+    CommonLibrary.CollectionRT:
+      getDescription: Downloads the zip files from server location
+      getResponseType: 
+      getResponseExample: !include examples/get_response.json

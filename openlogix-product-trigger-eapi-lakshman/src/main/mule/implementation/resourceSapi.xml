@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="resourceSapiSchedular" doc:id="52126e9f-4d3a-451e-b0c6-da5185d7eef7" >
+		<scheduler doc:name="Scheduler" doc:id="a988124b-daa2-46c0-8b67-ed826ed81026" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="DAYS"/>
+			</scheduling-strategy>
+		</scheduler>
+	</flow>
+	<flow name="resourceSapiFlow" doc:id="b163bbe5-a6a8-44d5-8c9e-7d2f8258c7eb" >
+		<http:request method="GET" doc:name="Request" doc:id="53813e8f-a1b9-4434-9256-cb31e18327ad" url="localhost:8081/api/file">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"clientSecret" : "qwertyuio",
+	"clientId" : "qwertyui"
+}]]]></http:headers>
+		</http:request>
+	</flow>
+</mule>

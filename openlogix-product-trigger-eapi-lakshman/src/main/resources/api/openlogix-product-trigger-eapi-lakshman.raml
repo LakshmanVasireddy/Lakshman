@@ -1,0 +1,40 @@
+#%RAML 1.0
+title: product-trigger-lakshman
+description: API for triggering the Process and System to download , process and insert product data into database
+protocols: [HTTP, HTTPS]
+mediaType: [application/json]
+securedBy: CommonLibrary.ClientCredentials
+version: 1.0.0
+
+uses:
+  CommonLibrary: exchange_modules/76f5b765-b094-4992-9efb-e3584f19850e/commonlibrary/1.0.2/commonlibrary.raml
+
+
+types:
+  fileUrl: !include dataType/fileUrl.raml
+  filePath: !include dataType/filePath.raml
+
+/health:
+  type:
+    CommonLibrary.HealthCheckRT:
+      getResponseType: Health
+
+
+/download:
+  post:
+  type:
+    CommonLibrary.CollectionRT:
+      postDescription: Triggers /file end point of product-resource-lakshman unsing scheduler job
+      postResponseType: 
+      postRequestBodyType: fileUrl
+      postResponseExample: !include examples/post_response.json
+
+/process:
+  post:
+  type:
+    CommonLibrary.CollectionRT:
+      postDescription: Triggers /processRecords end point of product-lakshman unsing scheduler job
+      postResponseType: 
+      postRequestBodyType: filePath
+      postResponseExample: !include examples/post_response.json
+
